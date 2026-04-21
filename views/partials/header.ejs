@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title || 'PCC Food Pantry' %></title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="navbar">
+    <a href="/" class="navbar-brand">
+      <img src="/pcc-logo.png" alt="PCC Logo" class="navbar-logo" />
+      <span class="navbar-title">PCC Food Pantry</span>
+    </a>
+
+    <!--
+      DEMO role picker. Posts to /demo/role with the chosen role and
+      redirects back to the same page. The "active" class highlights
+      whichever role is currently selected so the presenter can see at
+      a glance which perspective the app is showing.
+    -->
+    <div class="role-picker">
+      <span class="role-picker-label">View as:</span>
+      <form method="POST" action="/demo/role" class="inline-form">
+        <input type="hidden" name="role" value="admin" />
+        <button type="submit"
+                class="role-picker-btn <%= currentRole === 'admin' ? 'active' : '' %>">
+          Admin
+        </button>
+      </form>
+      <form method="POST" action="/demo/role" class="inline-form">
+        <input type="hidden" name="role" value="staff" />
+        <button type="submit"
+                class="role-picker-btn <%= currentRole === 'staff' ? 'active' : '' %>">
+          Staff
+        </button>
+      </form>
+      <form method="POST" action="/demo/role" class="inline-form">
+        <input type="hidden" name="role" value="student" />
+        <button type="submit"
+                class="role-picker-btn <%= currentRole === 'student' ? 'active' : '' %>">
+          Student
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <div class="page">

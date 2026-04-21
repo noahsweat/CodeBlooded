@@ -1,0 +1,38 @@
+<%- include('partials/header', { title }) %>
+
+<div class="home-box">
+  <%- include('partials/flash') %>
+
+  <% if (currentUser) { %>
+    <h1>Welcome, <%= currentUser.first_name %>!</h1>
+
+    <% if (currentUser.role === 'admin') { %>
+      <!-- Admin home view - send, log, and manage users -->
+      <p>You are logged in as an admin. You will also receive notifications.</p>
+
+      <div class="home-actions">
+        <a href="/notifications/send" class="btn btn-link-action">Send a Notification</a>
+        <a href="/notifications/log" class="btn btn-link-action btn-secondary">View Notification Log</a>
+        <a href="/admin/users" class="btn btn-link-action btn-secondary">Manage Users</a>
+      </div>
+    <% } else if (currentUser.role === 'staff') { %>
+      <!-- Staff home view - send and log only, no user management -->
+      <p>You are logged in as staff. You will also receive notifications.</p>
+
+      <div class="home-actions">
+        <a href="/notifications/send" class="btn btn-link-action">Send a Notification</a>
+        <a href="/notifications/log" class="btn btn-link-action btn-secondary">View Notification Log</a>
+      </div>
+    <% } else { %>
+      <!-- Student home view - no action buttons, just a confirmation that
+           the student is signed up to receive notifications -->
+      <p>You are signed up to receive notifications about the PCC Food Pantry!</p>
+    <% } %>
+
+  <% } else { %>
+    <h1>Welcome!</h1>
+    <p>Please log in or create an account.</p>
+  <% } %>
+</div>
+
+<%- include('partials/footer') %>

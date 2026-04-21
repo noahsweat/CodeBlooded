@@ -1,0 +1,76 @@
+<%- include('partials/header', { title }) %>
+
+<div class="log-box">
+  <h1>Manage Users</h1>
+
+  <%- include('partials/flash') %>
+
+  <p class="log-summary">
+    <%= users.length %> user<%= users.length === 1 ? '' : 's' %> total
+    (<%= adminCount %> admin<%= adminCount === 1 ? '' : 's' %>,
+    <%= staffCount %> staff,
+    <%= users.length - adminCount - staffCount %>
+    student<%= (users.length - adminCount - staffCount) === 1 ? '' : 's' %>).
+  </p>
+
+  <% if (users.length === 0) { %>
+    <div class="log-empty">No users yet.</div>
+  <% } else { %>
+    <table class="log-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% users.forEach((u) => { %>
+          <%
+            // Checks to see if this is the current user
+            const isSelf = u.id === currentUser.id;
+
+            // Checks to see if demoting this admin would leave zero admins
+            // as zero admins means no one could manage users, so the last
+            // remaining admin cannot be demoted
+            const isLastAdmin = u.role === 'admin' && adminCount <= 1;
+          %>
+          <tr>
+            <td><%= u.first_name %> <%= u.last_name %></td>
+            <td><%= u.email %></td>
+            <td>
+              <span class="role-badge role-<%= u.role %>"><%= u.role %></span>
+            </td>
+            <td>
+              <% if (isSelf) { %>
+                <span class="role-note">That's you</span>
+              <% } else if (isLastAdmin) { %>
+                <span class="role-note">Last admin account</span>
+              <% } else { %>
+                <form method="POST"
+                      action="/admin/users/<%= u.id %>/role"
+                      class="inline-form">
+                  <select name="role" class="form-input form-input-inline">
+                    <option value="admin"   <%= u.role === 'admin'   ? 'selected' : '' %>>Admin</option>
+                    <option value="staff"   <%= u.role === 'staff'   ? 'selected' : '' %>>Staff</option>
+                    <option value="student" <%= u.role === 'student' ? 'selected' : '' %>>Student</option>
+                  </select>
+                  <button type="submit" class="btn btn-compact btn-secondary">
+                    Update
+                  </button>
+                </form>
+              <% } %>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } %>
+
+  <div class="small-text">
+    <a href="/">Back to home</a>
+  </div>
+</div>
+
+<%- include('partials/footer') %>

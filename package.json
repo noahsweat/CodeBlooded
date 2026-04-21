@@ -1,0 +1,14 @@
+{
+  "name": "pcc-food-pantry-js",
+  "version": "1.0.0",
+  "description": "PCC Food Pantry - demo build with in-memory state only (no database, no auth).",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^4.21.2"
+  }
+}

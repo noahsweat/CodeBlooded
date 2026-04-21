@@ -1,0 +1,57 @@
+<%- include('partials/header', { title }) %>
+
+<div class="card card-wide">
+  <h1>Send Notification</h1>
+
+  <%- include('partials/flash') %>
+
+  <div class="form-group">
+    <label class="form-label">From</label>
+    <input
+      type="text"
+      class="form-input"
+      value="<%= currentUser.email %>"
+      readonly
+    />
+  </div>
+
+  <form method="POST" action="/notifications/send">
+    <div class="form-group">
+      <label class="form-label" for="subject">Subject</label>
+      <input
+        type="text"
+        id="subject"
+        name="subject"
+        class="form-input"
+        maxlength="200"
+        placeholder="Enter a subject"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="body">Message Body</label>
+      <textarea
+        id="body"
+        name="body"
+        class="form-input form-textarea"
+        rows="8"
+        placeholder="Write your message..."
+        required
+      ></textarea>
+    </div>
+
+    <button type="submit" class="btn">Send Notification</button>
+
+    <div class="form-secondary-actions">
+      <button type="reset" class="btn btn-compact btn-secondary">Clear</button>
+      <a href="/" class="btn btn-compact btn-secondary btn-link-action">Cancel</a>
+    </div>
+  </form>
+
+  <div class="small-text">
+    <a href="/notifications/log">View notification log</a>
+  </div>
+</div>
+
+<%- include('partials/footer') %>
